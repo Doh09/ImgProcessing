@@ -16,7 +16,7 @@ namespace Parallelprogrammeringseksamen
     /// </summary>
     public class ImgProcessor
     {
-        public string BmpImgPath { get; set; } = @"f153065664.bmp";
+        public string BmpImgPath { get; set; } = @"TomAndJerry.bmp";
         public Bitmap Img { get; set; }
 
 
@@ -24,10 +24,11 @@ namespace Parallelprogrammeringseksamen
         {
             ColorLoader cl = new ColorLoader();
             //colorsSequential
-            //ConcurrentBag<Color> colorsSequential = cl.GetColourCollection_SequentialForLoop(BmpImgPath);
+            ConcurrentBag<Color> colorsSequential = cl.GetColourCollection_SequentialForLoop(BmpImgPath);
             //colorParallel
-            ConcurrentBag<Color> colorParallel = cl.GetColourCollection_ParallelForLoop(BmpImgPath);
-            
+            //ConcurrentBag<Color> colorParallel = cl.GetColourCollection_ParallelForLoop(BmpImgPath);
+            var cpu = new CPU();
+            cpu.ProcessImg_MapReduce_PLINQ(colorsSequential);
 
         }
 
