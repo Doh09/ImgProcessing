@@ -24,7 +24,7 @@ namespace Parallelprogrammeringseksamen
         {
             ColorLoader cl = new ColorLoader();
             //colorsSequential
-            ConcurrentBag<Color> colorsSequential = cl.GetColourCollection_SequentialForLoop(BmpImgPath);
+            //ConcurrentBag<Color> colorsSequential = cl.GetColourCollection_SequentialForLoop(BmpImgPath);
             //colorParallel
             ConcurrentBag<Color> colorParallel = cl.GetColourCollection_ParallelForLoop(BmpImgPath);
             

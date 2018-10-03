@@ -26,7 +26,7 @@ namespace Parallelprogrammeringseksamen
             Console.WriteLine("Loading colours into collection so they can be worked with...");
 
             Stopwatch sw = new Stopwatch();
-            sw.Start();
+            sw.Restart();
             //Run code
             int newHeight = height;
             for (int i = 0; i < width; i++)
@@ -55,17 +55,17 @@ namespace Parallelprogrammeringseksamen
             Console.WriteLine("Loading colours into collection so they can be worked with...");
 
             Stopwatch sw = new Stopwatch();
-            sw.Start();
+            sw.Restart();
             Parallel.For(0, width, i => //width+1 as it's exclusive.
             {
-                Bitmap bmp;
-                lock (new object())
-                {
-                    bmp = new Bitmap(BmpImgPath);
-                }
+                //Bitmap bmp;
+                //lock (new object())
+                //{
+                Bitmap bmp = new Bitmap(BmpImgPath);
+                //}
                 //Run code
-                int newHeight = height;
-                for (int j = 0; j < newHeight; j++) //Man kan lave en cache optimering ved at tjekke om længde eller bredde er størst og så bytte rundt på loopsne. Men så skal man også bytte rundt på i og j da x skal stå først og y nr. 2.
+                //int newHeight = height;
+                for (int j = 0; j < height; j++) //Man kan lave en cache optimering ved at tjekke om længde eller bredde er størst og så bytte rundt på loopsne. Men så skal man også bytte rundt på i og j da x skal stå først og y nr. 2.
                 {
                     Color clr = bmp.GetPixel(i, j); // Get the color of pixel at position i,j
                     colors.Add(clr); // <-- crasher den den ikke er thread safe.
