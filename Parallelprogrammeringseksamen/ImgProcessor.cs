@@ -16,7 +16,7 @@ namespace Parallelprogrammeringseksamen
     /// </summary>
     public class ImgProcessor
     {
-        public string BmpImgPath { get; set; } = @"C:\Users\alex_\source\repos\Parallelprogrammeringseksamen\Parallelprogrammeringseksamen\TheWorld_Small.bmp";
+        public string BmpImgPath { get; set; } = @"f153065664.bmp";
         public Bitmap Img { get; set; }
 
 
