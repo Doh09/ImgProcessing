@@ -17,18 +17,48 @@ namespace Parallelprogrammeringseksamen
     public class ImgProcessor
     {
         public string BmpImgPath { get; set; } = @"TomAndJerry.bmp";
+        public List<string> BmpImgPaths { get; set; } = 
+            new List<string> {
+                @"TomAndJerry.bmp",@"TomAndJerry.bmp",@"TomAndJerry.bmp",
+                @"TomAndJerry.bmp",@"TomAndJerry.bmp",@"TomAndJerry.bmp",
+                @"TomAndJerry.bmp",@"TomAndJerry.bmp",@"TomAndJerry.bmp" };
+        public List<string> BmpImgPaths2 { get; set; } =
+    new List<string> {
+                @"./ImagesToWorkOn/TheWorld.bmp",@"./ImagesToWorkOn/TheWorld.bmp",@"./ImagesToWorkOn/TheWorld.bmp",
+                @"./ImagesToWorkOn/TheWorld.bmp",@"./ImagesToWorkOn/TheWorld.bmp",@"./ImagesToWorkOn/TheWorld.bmp",
+                @"./ImagesToWorkOn/TheWorld.bmp",@"./ImagesToWorkOn/TheWorld.bmp",@"./ImagesToWorkOn/TheWorld.bmp" };
         public Bitmap Img { get; set; }
 
 
         public void ProcessImage()
         {
             ColorLoader cl = new ColorLoader();
+            //MultipleImages using tasks
+            Stopwatch sw = new Stopwatch();
+            sw.Restart();
+            List<Color> multipleImagesColors = cl.GetColourCollection_SequentialForLoop_ManyImages_UsingTasksAsync(BmpImgPaths2).Result;
+            sw.Stop();
+            string asyncSwElapsed = sw.Elapsed.ToString();
+            Console.WriteLine("Multiple images - Async tasks - total time - "+ asyncSwElapsed);
+            sw.Restart();
+            List<Color> multipleImagesColors2 = cl.GetColourCollection_SequentialForLoop_ManyImages(BmpImgPaths2);
+            sw.Stop();
+            string sequentialSwElapsed = sw.Elapsed.ToString();
+            Console.WriteLine("Multiple images - Sequential - total time - " + sequentialSwElapsed);
+            Console.WriteLine("****************************************************");
+            Console.WriteLine("******************* - RESULT - *********************");
+            Console.WriteLine("****************************************************");
+            Console.WriteLine("Load Multiple images - Async tasks - total time - " + asyncSwElapsed);
+            Console.WriteLine("Load Multiple images - Sequential - total time - " + sequentialSwElapsed);
+            Console.WriteLine("****************************************************");
+            Console.WriteLine("****************************************************");
+            //ConcurrentBag<Color> multipleImagesColors = cl.GetColourCollection_SequentialForLoop_ManyImages(BmpImgPaths2);
             //colorsSequential
-            ConcurrentBag<Color> colorsSequential = cl.GetColourCollection_SequentialForLoop(BmpImgPath);
+            //ConcurrentBag<Color> colorsSequential = cl.GetColourCollection_SequentialForLoop(BmpImgPath);
             //colorParallel
             //ConcurrentBag<Color> colorParallel = cl.GetColourCollection_ParallelForLoop(BmpImgPath);
             var cpu = new CPU();
-            cpu.ProcessImg_MapReduce_PLINQ(colorsSequential);
+            cpu.ProcessImg_MapReduce_PLINQ(multipleImagesColors);
 
         }
 

@@ -17,6 +17,9 @@
     <None Update="f153065664.bmp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="ImagesToWorkOn\TheWorld.bmp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="ImagesToWorkOn\TomAndJerry.bmp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
