@@ -97,14 +97,14 @@ namespace Parallelprogrammeringseksamen
             for (int i = 0; i < BmpImgPaths.Count; i++)
             {
                 Console.WriteLine("Loading image - " + BmpImgPaths[i]);
-                GetColourCollection_SequentialForLoop(BmpImgPaths[i]);
+                gatheredColours.AddRange(GetColourCollection_SequentialForLoop(BmpImgPaths[i]));
             }
             return gatheredColours;
         }
 
-            public ConcurrentBag<Color> GetColourCollection_SequentialForLoop(string BmpImgPath)
+            public List<Color> GetColourCollection_SequentialForLoop(string BmpImgPath)
         {
-            ConcurrentBag<Color> colors = new ConcurrentBag<Color>();
+            List<Color> colors = new List<Color>();
             Console.WriteLine("Loading img from path: " + BmpImgPath);
             Bitmap bmp = new Bitmap(BmpImgPath);
             int width = bmp.Width;

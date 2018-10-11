@@ -58,7 +58,7 @@ namespace Parallelprogrammeringseksamen
             //colorParallel
             //ConcurrentBag<Color> colorParallel = cl.GetColourCollection_ParallelForLoop(BmpImgPath);
             var cpu = new CPU();
-            cpu.Initialize(colorsSequential.ToList(),2);
+            cpu.Initialize(multipleImagesColors,2);
 
         }
 
