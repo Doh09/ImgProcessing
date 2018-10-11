@@ -82,7 +82,7 @@ namespace Parallelprogrammeringseksamen
                 colors
                     .GroupBy(color => color)
                     .Select(
-                        intermediate => new
+                        intermediate => new ColorFrequency
                         {
                             ColorKey = intermediate.Key,
                             Frequency = intermediate.Sum(c => 1)
@@ -92,6 +92,8 @@ namespace Parallelprogrammeringseksamen
 
             Console.WriteLine($"Sequential CPU: {sw.Elapsed}");
 
+            var candidatesList = candidates.ToList();
+            PrintListWithColours(candidatesList);
             //foreach (var result in candidates)
             //{
             //    var localR = result.ColorKey.R;
@@ -104,12 +106,41 @@ namespace Parallelprogrammeringseksamen
 
             //}
 
-            Console.ReadLine();
+             Console.ReadLine();
 
 
             //.Select(foafGroup => new IDMultisetItem(foafGroup.Key,
             //    foafGroup.Count()));
             //return Multiset.MostNumerous(candidates, maxCandidates);
         }
+
+        private void PrintListWithColours(List<ColorFrequency> colorFrequencies, int topCandidatesToPrint = 10)
+        {
+            for (int i = topCandidatesToPrint; i > 0; i--)
+            {
+                Thread.Sleep(100);
+                Color c = colorFrequencies[colorFrequencies.Count - i].ColorKey; //The color used for the text in the console.
+                Color colorInfo = colorFrequencies[colorFrequencies.Count - i].ColorKey; //The color data, RGB.
+                if (c.R == 0 && c.G == 0 && c.B == 0)
+                {
+                    //If Colour is black, set background white.
+                    Console.BackgroundColor = System.ConsoleColor.White;
+                }
+                else
+                {
+                    //If Colour is not black, set background black.
+                    Console.BackgroundColor = System.ConsoleColor.Black;
+                }
+                Colorful.Console.WriteLine($"Colour placement: {i} - Colour {colorInfo}", c);
+            }
+        }
+
+        public class ColorFrequency
+        {
+            public Color ColorKey { get; set; }
+            public int Frequency { get; set; }
+
+        }
     }
 }
+

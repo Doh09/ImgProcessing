@@ -27,21 +27,26 @@ namespace Parallelprogrammeringseksamen
                 @"./ImagesToWorkOn/TheWorld.bmp",@"./ImagesToWorkOn/TheWorld.bmp",@"./ImagesToWorkOn/TheWorld.bmp",
                 @"./ImagesToWorkOn/TheWorld.bmp",@"./ImagesToWorkOn/TheWorld.bmp",@"./ImagesToWorkOn/TheWorld.bmp",
                 @"./ImagesToWorkOn/TheWorld.bmp",@"./ImagesToWorkOn/TheWorld.bmp",@"./ImagesToWorkOn/TheWorld.bmp" };
+        public List<string> BmpImgPaths3 { get; set; } =
+    new List<string> {
+                @"f153065664.bmp",@"f153065664.bmp",@"f153065664.bmp",
+                @"f153065664.bmp",@"f153065664.bmp",@"f153065664.bmp",
+                @"f153065664.bmp",@"f153065664.bmp",@"f153065664.bmp" };
         public Bitmap Img { get; set; }
 
-
+        
         public void ProcessImage()
         {
             ColorLoader cl = new ColorLoader();
             //MultipleImages using tasks
             Stopwatch sw = new Stopwatch();
             sw.Restart();
-            List<Color> multipleImagesColors = cl.GetColourCollection_SequentialForLoop_ManyImages_UsingTasksAsync(BmpImgPaths2).Result;
+            List<Color> multipleImagesColors = cl.GetColourCollection_SequentialForLoop_ManyImages_UsingTasksAsync(BmpImgPaths).Result;
             sw.Stop();
             string asyncSwElapsed = sw.Elapsed.ToString();
             Console.WriteLine("Multiple images - Async tasks - total time - "+ asyncSwElapsed);
             sw.Restart();
-            List<Color> multipleImagesColors2 = cl.GetColourCollection_SequentialForLoop_ManyImages(BmpImgPaths2);
+            List<Color> multipleImagesColors2 = cl.GetColourCollection_SequentialForLoop_ManyImages(BmpImgPaths);
             sw.Stop();
             string sequentialSwElapsed = sw.Elapsed.ToString();
             Console.WriteLine("Multiple images - Sequential - total time - " + sequentialSwElapsed);
