@@ -119,8 +119,9 @@ namespace Parallelprogrammeringseksamen
             for (int i = topCandidatesToPrint; i > 0; i--)
             {
                 Thread.Sleep(100);
-                Color c = colorFrequencies[colorFrequencies.Count - i].ColorKey; //The color used for the text in the console.
-                Color colorInfo = colorFrequencies[colorFrequencies.Count - i].ColorKey; //The color data, RGB.
+                ColorFrequency cf = colorFrequencies[colorFrequencies.Count - i];
+                Color c = cf.ColorKey; //The color used for the text in the console.
+                Color colorInfo = cf.ColorKey; //The color data, RGB.
                 if (c.R == 0 && c.G == 0 && c.B == 0)
                 {
                     //If Colour is black, set background white.
@@ -131,7 +132,7 @@ namespace Parallelprogrammeringseksamen
                     //If Colour is not black, set background black.
                     Console.BackgroundColor = System.ConsoleColor.Black;
                 }
-                Colorful.Console.WriteLine($"Colour placement: {i} - Colour {colorInfo}", c);
+                Colorful.Console.WriteLine($"Colour placement: {i} - Colour {colorInfo} - Frequency: {cf.Frequency}", c);
             }
         }
 
