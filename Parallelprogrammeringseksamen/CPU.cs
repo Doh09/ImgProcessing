@@ -21,17 +21,18 @@ namespace Parallelprogrammeringseksamen
             {
                 colors.AddRange(colors);
             }
-            ProcessImg_MapReduce_PLINQ(colors);
-            ProcessImg_MapReduce_LINQ(colors);
-            Console.ReadLine();
+            Console.WriteLine("RESULT *-*-*-*- CPU Map-Reduce time results");
+            var plinqColours = ProcessImg_MapReduce_PLINQ(colors);
+            var linqColours =  ProcessImg_MapReduce_LINQ(colors);
+            Console.WriteLine("");
+            Console.WriteLine("RESULT *-*-*-*- CPU Map-Reduce color results");
+            PrintListWithColours(plinqColours);
+            Console.WriteLine("");
         }
 
-        public void ProcessImg_MapReduce_PLINQ(IEnumerable<Color> colors)
+        public List<ColorFrequency> ProcessImg_MapReduce_PLINQ(IEnumerable<Color> colors)
         {
-            //colors.AsParallel()
-            //    .GroupBy(c => c)
-            //    .Select(colourGroup => new IDMultiSetItem(
-            //        colorGroup., colorGroup.Count()));
+            Console.WriteLine("Starting PLINQ Map-Reduce...");
             Stopwatch sw = new Stopwatch();
             sw.Restart();
             var candidates =
@@ -39,7 +40,7 @@ namespace Parallelprogrammeringseksamen
                     .AsParallel()
                     .GroupBy(color => color)
                     .Select(
-                        intermediate => new
+                        intermediate => new ColorFrequency
                         {
                             ColorKey = intermediate.Key,
                             Frequency = intermediate.Sum(c => 1)
@@ -49,33 +50,13 @@ namespace Parallelprogrammeringseksamen
 
             Console.WriteLine($"Parallel CPU: {sw.Elapsed}");
 
-            //foreach (var result in candidates)
-            //{
-            //    var localR = result.ColorKey.R;
-            //    var localG = result.ColorKey.G;
-            //    var localB = result.ColorKey.B;
-
-            //    Console.WriteLine(
-            //        $"Red: {localR} Green: {localG} Blue: {localB} Appeared: {result.Frequency}"); //FromArgb(result.ColorKey.R, result.ColorKey.G, result.ColorKey.B));
-            //                                                 //Console.WriteLine($"Red: {result.ColorKey.R} Green: {result.ColorKey.G} Blue: {result.ColorKey.B} Appeared: {result.Frequency}");
-
-            //}
-
-            //Console.ReadLine();
-
-
-            //.Select(foafGroup => new IDMultisetItem(foafGroup.Key,
-            //    foafGroup.Count()));
-            //return Multiset.MostNumerous(candidates, maxCandidates);
+            return candidates.ToList();
         }
 
 
-        public void ProcessImg_MapReduce_LINQ(IEnumerable<Color> colors)
+        public List<ColorFrequency> ProcessImg_MapReduce_LINQ(IEnumerable<Color> colors)
         {
-            //colors.AsParallel()
-            //    .GroupBy(c => c)
-            //    .Select(colourGroup => new IDMultiSetItem(
-            //        colorGroup., colorGroup.Count()));
+            Console.WriteLine("Starting LINQ Map-Reduce...");
             Stopwatch sw = new Stopwatch();
             sw.Restart();
             var candidates =
@@ -92,26 +73,7 @@ namespace Parallelprogrammeringseksamen
 
             Console.WriteLine($"Sequential CPU: {sw.Elapsed}");
 
-            var candidatesList = candidates.ToList();
-            PrintListWithColours(candidatesList);
-            //foreach (var result in candidates)
-            //{
-            //    var localR = result.ColorKey.R;
-            //    var localG = result.ColorKey.G;
-            //    var localB = result.ColorKey.B;
-
-            //    Console.WriteLine(
-            //        $"Red: {localR} Green: {localG} Blue: {localB} Appeared: {result.Frequency}"); //FromArgb(result.ColorKey.R, result.ColorKey.G, result.ColorKey.B));
-            //                                                 //Console.WriteLine($"Red: {result.ColorKey.R} Green: {result.ColorKey.G} Blue: {result.ColorKey.B} Appeared: {result.Frequency}");
-
-            //}
-
-             Console.ReadLine();
-
-
-            //.Select(foafGroup => new IDMultisetItem(foafGroup.Key,
-            //    foafGroup.Count()));
-            //return Multiset.MostNumerous(candidates, maxCandidates);
+            return candidates.ToList();
         }
 
         private void PrintListWithColours(List<ColorFrequency> colorFrequencies, int topCandidatesToPrint = 10)

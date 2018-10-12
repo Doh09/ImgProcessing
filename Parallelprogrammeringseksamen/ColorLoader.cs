@@ -160,8 +160,6 @@ namespace Parallelprogrammeringseksamen
             });
             sw.Stop();
             Console.WriteLine("Time taken to load colours parallel: " + sw.Elapsed);
-            Console.WriteLine("Colours loaded, press >ENTER< to continue...");
-            Console.ReadLine();
             return colors;
         }
     }

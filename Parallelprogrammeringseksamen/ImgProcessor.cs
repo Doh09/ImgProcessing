@@ -42,14 +42,17 @@ namespace Parallelprogrammeringseksamen
             List<Color> multipleImagesColors2 = cl.GetColourCollection_SequentialForLoop_ManyImages(BmpImgPaths);
             sw.Stop();
             string sequentialSwElapsed = sw.Elapsed.ToString();
-            Console.WriteLine("Multiple images - Sequential - total time - " + sequentialSwElapsed);
-            Console.WriteLine("****************************************************");
-            Console.WriteLine("******************* - RESULT - *********************");
-            Console.WriteLine("****************************************************");
+            //Console.WriteLine("Multiple images - Sequential - total time - " + sequentialSwElapsed);
+            //Console.WriteLine("****************************************************");
+            //Console.WriteLine("******************* - RESULT - *********************");
+            //Console.WriteLine("****************************************************");
+            Colorful.Console.WriteAscii("*** RESULTS ***");
+            Console.WriteLine("RESULT *-*-*-*- Image loading results");
             Console.WriteLine("Load Multiple images - Async tasks - total time - " + asyncSwElapsed);
             Console.WriteLine("Load Multiple images - Sequential - total time - " + sequentialSwElapsed);
-            Console.WriteLine("****************************************************");
-            Console.WriteLine("****************************************************");
+            Console.WriteLine("");
+            //Console.WriteLine("****************************************************");
+            //Console.WriteLine("****************************************************");
             //ConcurrentBag<Color> multipleImagesColors = cl.GetColourCollection_SequentialForLoop_ManyImages(BmpImgPaths2);
             //colorsSequential
             //ConcurrentBag<Color> colorsSequential = cl.GetColourCollection_SequentialForLoop(BmpImgPath);
@@ -57,7 +60,9 @@ namespace Parallelprogrammeringseksamen
             //ConcurrentBag<Color> colorParallel = cl.GetColourCollection_ParallelForLoop(BmpImgPath);
             var cpu = new CPU();
             cpu.Initialize(multipleImagesColors, 2);
-
+            Console.WriteLine("All results loaded, press >ENTER< twice to exit.");
+            Console.ReadLine();
+            Console.ReadLine();
         }
 
         public List<string> GetStringAsList(string stringToMultiply, int lengthOfList)
