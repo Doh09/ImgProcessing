@@ -16,27 +16,20 @@ namespace Parallelprogrammeringseksamen
     /// </summary>
     public class ImgProcessor
     {
-        public string BmpImgPath { get; set; } = @"TomAndJerry.bmp";
-        public List<string> BmpImgPaths { get; set; } = 
-            new List<string> {
-                @"TomAndJerry.bmp",@"TomAndJerry.bmp",@"TomAndJerry.bmp",
-                @"TomAndJerry.bmp",@"TomAndJerry.bmp",@"TomAndJerry.bmp",
-                @"TomAndJerry.bmp",@"TomAndJerry.bmp",@"TomAndJerry.bmp" };
-        public List<string> BmpImgPaths2 { get; set; } =
-    new List<string> {
-                @"./ImagesToWorkOn/TheWorld.bmp",@"./ImagesToWorkOn/TheWorld.bmp",@"./ImagesToWorkOn/TheWorld.bmp",
-                @"./ImagesToWorkOn/TheWorld.bmp",@"./ImagesToWorkOn/TheWorld.bmp",@"./ImagesToWorkOn/TheWorld.bmp",
-                @"./ImagesToWorkOn/TheWorld.bmp",@"./ImagesToWorkOn/TheWorld.bmp",@"./ImagesToWorkOn/TheWorld.bmp" };
-        public List<string> BmpImgPaths3 { get; set; } =
-    new List<string> {
-                @"f153065664.bmp",@"f153065664.bmp",@"f153065664.bmp",
-                @"f153065664.bmp",@"f153065664.bmp",@"f153065664.bmp",
-                @"f153065664.bmp",@"f153065664.bmp",@"f153065664.bmp" };
+        public string BmpImgPath { get; set; }
+        public List<string> BmpImgPaths { get; set; }
+        public List<string> BmpImgPaths2 { get; set; }
+        public List<string> BmpImgPaths3 { get; set; }
         public Bitmap Img { get; set; }
 
-        
+
         public void ProcessImage()
         {
+            BmpImgPath = @"TomAndJerry.bmp";
+            BmpImgPaths = GetStringAsList(@"TomAndJerry.bmp", 9);
+            BmpImgPaths2 = GetStringAsList(@"./ImagesToWorkOn/TheWorld.bmp", 9);
+            BmpImgPaths3 = GetStringAsList(@"f153065664.bmp", 9);
+            
             ColorLoader cl = new ColorLoader();
             //MultipleImages using tasks
             Stopwatch sw = new Stopwatch();
@@ -44,7 +37,7 @@ namespace Parallelprogrammeringseksamen
             List<Color> multipleImagesColors = cl.GetColourCollection_SequentialForLoop_ManyImages_UsingTasksAsync(BmpImgPaths).Result;
             sw.Stop();
             string asyncSwElapsed = sw.Elapsed.ToString();
-            Console.WriteLine("Multiple images - Async tasks - total time - "+ asyncSwElapsed);
+            Console.WriteLine("Multiple images - Async tasks - total time - " + asyncSwElapsed);
             sw.Restart();
             List<Color> multipleImagesColors2 = cl.GetColourCollection_SequentialForLoop_ManyImages(BmpImgPaths);
             sw.Stop();
@@ -63,8 +56,18 @@ namespace Parallelprogrammeringseksamen
             //colorParallel
             //ConcurrentBag<Color> colorParallel = cl.GetColourCollection_ParallelForLoop(BmpImgPath);
             var cpu = new CPU();
-            cpu.Initialize(multipleImagesColors,2);
+            cpu.Initialize(multipleImagesColors, 2);
 
+        }
+
+        public List<string> GetStringAsList(string stringToMultiply, int lengthOfList)
+        {
+            List<string> stringList = new List<string>();
+            for (int i = 0; i < lengthOfList; i++)
+            {
+                stringList.Add(stringToMultiply);
+            }
+            return stringList;
         }
 
         public void ProcessImg_LINQ()
