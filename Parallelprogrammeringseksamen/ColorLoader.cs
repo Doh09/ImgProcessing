@@ -14,7 +14,7 @@ namespace Parallelprogrammeringseksamen
     /// This class loads in the colours from an image into a collection.
     /// This collection can then be used with LINQ and PLINQ to check speed differences.
     /// </summary>
-    public class ColorLoader
+    public class ColorLoader : IColorLoader
     {
         public async Task<List<Color>> GetColourCollection_SequentialForLoop_ManyImages_UsingTasksAsync(List<string> BmpImgPaths)
         {

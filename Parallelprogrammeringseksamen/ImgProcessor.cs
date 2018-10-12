@@ -16,22 +16,38 @@ namespace Parallelprogrammeringseksamen
     /// </summary>
     public class ImgProcessor
     {
+        #region ImgPaths
         public string BmpImgPath { get; set; }
         public List<string> BmpImgPaths { get; set; }
         public List<string> BmpImgPaths2 { get; set; }
         public List<string> BmpImgPaths3 { get; set; }
-        public Bitmap Img { get; set; }
+        #endregion
+        #region Dependency Injections
+        private IColorLoader cl { get; set; }
+        #endregion
+        #region Results
+        public delegate void Results(string s);
+        public Results ImgProcessorResults;
+        #endregion
 
+        public void Initialize(IColorLoader cl) {
+            this.cl = cl;
+            SetUpImagePaths();
+            var colors = LoadImage();
+            ProcessImage(colors);
+        }
 
-        public void ProcessImage()
+        private void SetUpImagePaths()
         {
             BmpImgPath = @"TomAndJerry.bmp";
             BmpImgPaths = GetStringAsList(@"TomAndJerry.bmp", 9);
             BmpImgPaths2 = GetStringAsList(@"./ImagesToWorkOn/TheWorld.bmp", 9);
             BmpImgPaths3 = GetStringAsList(@"f153065664.bmp", 9);
-            
+        }
+
+        private List<Color> LoadImage()
+        {
             ColorLoader cl = new ColorLoader();
-            //MultipleImages using tasks
             Stopwatch sw = new Stopwatch();
             sw.Restart();
             List<Color> multipleImagesColors = cl.GetColourCollection_SequentialForLoop_ManyImages_UsingTasksAsync(BmpImgPaths).Result;
@@ -42,24 +58,21 @@ namespace Parallelprogrammeringseksamen
             List<Color> multipleImagesColors2 = cl.GetColourCollection_SequentialForLoop_ManyImages(BmpImgPaths);
             sw.Stop();
             string sequentialSwElapsed = sw.Elapsed.ToString();
-            //Console.WriteLine("Multiple images - Sequential - total time - " + sequentialSwElapsed);
-            //Console.WriteLine("****************************************************");
-            //Console.WriteLine("******************* - RESULT - *********************");
-            //Console.WriteLine("****************************************************");
-            Colorful.Console.WriteAscii("*** RESULTS ***");
+            //Colorful.Console.WriteAscii();
+
+            //ImgProcessorResults = new Results(PrintAscii(parameter => parameter = ""));
             Console.WriteLine("RESULT *-*-*-*- Image loading results");
             Console.WriteLine("Load Multiple images - Async tasks - total time - " + asyncSwElapsed);
             Console.WriteLine("Load Multiple images - Sequential - total time - " + sequentialSwElapsed);
             Console.WriteLine("");
-            //Console.WriteLine("****************************************************");
-            //Console.WriteLine("****************************************************");
-            //ConcurrentBag<Color> multipleImagesColors = cl.GetColourCollection_SequentialForLoop_ManyImages(BmpImgPaths2);
-            //colorsSequential
-            //ConcurrentBag<Color> colorsSequential = cl.GetColourCollection_SequentialForLoop(BmpImgPath);
-            //colorParallel
-            //ConcurrentBag<Color> colorParallel = cl.GetColourCollection_ParallelForLoop(BmpImgPath);
+
+            return multipleImagesColors;
+        }
+
+        public void ProcessImage(List<Color> colorsToMapReduce)
+        {
             var cpu = new CPU();
-            cpu.Initialize(multipleImagesColors, 2);
+            cpu.Initialize(colorsToMapReduce, 2);
             Console.WriteLine("All results loaded, press >ENTER< twice to exit.");
             Console.ReadLine();
             Console.ReadLine();
@@ -75,9 +88,12 @@ namespace Parallelprogrammeringseksamen
             return stringList;
         }
 
-        public void ProcessImg_LINQ()
-        {
+        void PrintAscii(string s) {
+            Colorful.Console.WriteAscii(s);
+        }
 
+        void PrintLine(string s) {
+            Console.WriteLine(s);
         }
 
     }
