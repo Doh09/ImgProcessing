@@ -1,6 +1,10 @@
-﻿using System;
+﻿using HtmlAgilityPack;
+using Parallelprogrammeringseksamen.Pipelines;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 
 namespace Parallelprogrammeringseksamen
 {
@@ -15,14 +19,26 @@ namespace Parallelprogrammeringseksamen
             //ImgProcessor imgp = new ImgProcessor();
             //imgp.Initialize(new ColorLoader());
 
-            var imgProcessorRedux = new ImgProcessorRedux();
-            var files = Directory.GetFiles(
-                @"C:\Users\marti\source\repos\ImgProcessing\Parallelprogrammeringseksamen\ImagesToWorkOn", "*.bmp");
+            //var files = new List<string> { @"http://www.cs.tau.ac.il/~spike/images/ATM.bmp" };
 
+            var files = new List<string>();
+            string url = @"http://www.cs.tau.ac.il/~spike/images/";
+            HtmlWeb hw = new HtmlWeb();
+            HtmlDocument doc = hw.Load(url);
+            foreach (HtmlNode link in doc.DocumentNode.SelectNodes("//a[@href]"))
+            {
+                string s = link.ToString();
+                Console.WriteLine(s);
+            }
 
-            imgProcessorRedux.Initialize(new ColorLoader(), files);
+            //var files = Directory.GetFiles(
+            //    @"..\..\..\ImagesToWorkOn", "*.bmp"
+            //    );
 
+            var imgProcessingPipeline = new ImgProcessingPipeline();
+            imgProcessingPipeline.Initialize(files);
 
+            Console.WriteLine("Finished... Hit >ENTER< to quit...");
             Console.ReadLine();
         }
     }
