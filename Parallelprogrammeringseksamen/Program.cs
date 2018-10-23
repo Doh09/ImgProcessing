@@ -14,6 +14,9 @@ namespace Parallelprogrammeringseksamen
             Console.WriteLine("Starting Image Processor...");
             ImgProcessor imgp = new ImgProcessor();
             imgp.Initialize(new ColorLoader());
+
+
+
         }
     }
 }
