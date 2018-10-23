@@ -34,14 +34,20 @@ namespace Parallelprogrammeringseksamen.Pipelines
             //Use TaskFactory to run all pipeline stages.
             var stage1 = f.StartNew(() => pplsLoadImage.LoadImagePaths(CallingMode.Online, buffer1)); //Load image paths from local or online source.
 
-            var stage2 = f.StartNew(() => pplsProcessImage.LoadImageColors(buffer1, buffer2)); //Load colours from each image into collection.
+            //Use extra stages for load balancing to minimize bottleneck.
+            var stage2_0 = f.StartNew(() => pplsProcessImage.LoadImageColors(buffer1, buffer2)); //Load colours from each image into collection.
+            var stage2_1 = f.StartNew(() => pplsProcessImage.LoadImageColors(buffer1, buffer2)); //Load colours from each image into collection.
+            var stage2_2 = f.StartNew(() => pplsProcessImage.LoadImageColors(buffer1, buffer2)); //Load colours from each image into collection.
+            var stage2_3 = f.StartNew(() => pplsProcessImage.LoadImageColors(buffer1, buffer2)); //Load colours from each image into collection.
+            Task.WaitAll(stage1, stage2_0, stage2_1, stage2_2, stage2_3);
+            buffer2.CompleteAdding();
 
             var stage3 = f.StartNew(() => pplsMapReduce.MapReduceColor(buffer2, buffer3)); //MapReduce.
 
             var stage4 = f.StartNew(() => pplsWriteResult.WriteResultToConsole(buffer3)); //Print result.
 
             //Wait for all pipeline stages/tasks to finish.
-            Task.WaitAll(stage1, stage2, stage3, stage4);
+            Task.WaitAll(stage3, stage4);
         }
     }
 }

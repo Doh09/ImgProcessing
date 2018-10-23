@@ -49,7 +49,7 @@ namespace Parallelprogrammeringseksamen.Pipelines.PipelineStages
             }
             finally
             {
-                output.CompleteAdding();
+                //output.CompleteAdding();
             }
         }
     }
