@@ -5,12 +5,13 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Parallelprogrammeringseksamen.Pipelines.PipelineStages;
+using static Parallelprogrammeringseksamen.Pipelines.PipelineStages.Pipeline_LoadImagePaths;
 
 namespace Parallelprogrammeringseksamen.Pipelines
 {
     public class ImgProcessingPipeline
     {
-        public void Initialize(IEnumerable<string> bmpImgPaths)
+        public void Initialize(string FolderLocationOrOnlineLocation = "") //if "" it uses default filepath or URL.
         {
 
             //Buffer for the filepaths
@@ -31,7 +32,7 @@ namespace Parallelprogrammeringseksamen.Pipelines
                 TaskContinuationOptions.None);
 
             //Use TaskFactory to run all pipeline stages.
-            var stage1 = f.StartNew(() => pplsLoadImage.LoadImagePaths(bmpImgPaths, buffer1)); //Load image paths.
+            var stage1 = f.StartNew(() => pplsLoadImage.LoadImagePaths(CallingMode.Online, buffer1)); //Load image paths from local or online source.
 
             var stage2 = f.StartNew(() => pplsProcessImage.LoadImageColors(buffer1, buffer2)); //Load colours from each image into collection.
 
