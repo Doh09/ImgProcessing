@@ -40,9 +40,9 @@ namespace Parallelprogrammeringseksamen
         private void SetUpImagePaths()
         {
             BmpImgPath = @"TomAndJerry.bmp";
-            BmpImgPaths = GetStringAsList(@"TomAndJerry.bmp", 9);
-            BmpImgPaths2 = GetStringAsList(@"./ImagesToWorkOn/TheWorld.bmp", 9);
-            BmpImgPaths3 = GetStringAsList(@"f153065664.bmp", 9);
+            BmpImgPaths = GetStringAsList(@"TomAndJerry.bmp", 6);
+            BmpImgPaths2 = GetStringAsList(@"./ImagesToWorkOn/TheWorld.bmp", 6);
+            BmpImgPaths3 = GetStringAsList(@"f153065664.bmp", 6);
         }
 
         private List<Color> LoadImage()
@@ -50,12 +50,12 @@ namespace Parallelprogrammeringseksamen
             ColorLoader cl = new ColorLoader();
             Stopwatch sw = new Stopwatch();
             sw.Restart();
-            List<Color> multipleImagesColors = cl.MapColours_SequentialForLoop_ManyImages_UsingTasksAsync(BmpImgPaths).Result;
+            List<Color> multipleImagesColors = cl.MapColours_SequentialForLoop_ManyImages_UsingTasksAsync(BmpImgPaths2).Result;
             sw.Stop();
             string asyncSwElapsed = sw.Elapsed.ToString();
             Console.WriteLine("Multiple images - Async tasks - total time - " + asyncSwElapsed);
             sw.Restart();
-            List<Color> multipleImagesColors2 = cl.MapColours_SequentialForLoop_ManyImages(BmpImgPaths);
+            List<Color> multipleImagesColors2 = cl.MapColours_SequentialForLoop_ManyImages(BmpImgPaths2);
             sw.Stop();
             string sequentialSwElapsed = sw.Elapsed.ToString();
             //Colorful.Console.WriteAscii();
