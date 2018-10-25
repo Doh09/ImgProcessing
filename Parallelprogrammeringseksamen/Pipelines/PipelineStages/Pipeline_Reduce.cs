@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Parallelprogrammeringseksamen.Pipelines.PipelineStages
 {
-    public class Pipeline_MapReduce
+    public class Pipeline_Reduce
     {
         public void MapReduceColor(BlockingCollection<DTOImgColorsFromFilepath> input, BlockingCollection<DTOImgAnalyzationResultWithFrequency> output)
         {

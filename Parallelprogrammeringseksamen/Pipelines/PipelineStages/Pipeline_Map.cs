@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Parallelprogrammeringseksamen.Pipelines.PipelineStages
 {
-    public class Pipeline_ProcessImage
+    public class Pipeline_Map
     {
         public void LoadImageColors(BlockingCollection<string> input, BlockingCollection<DTOImgColorsFromFilepath> output)
         {
