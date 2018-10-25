@@ -39,11 +39,12 @@ namespace Parallelprogrammeringseksamen.Pipelines.PipelineStages
             HtmlDocument doc = hw.Load(url);
             foreach (HtmlNode link in doc.DocumentNode.SelectNodes("//a[@href]"))
             {
+                //For each link
                 string onlineRelativeImgPath = "";
-                foreach (var a in link.Attributes["href"].Value)
+                foreach (var a in link.Attributes["href"].Value) //If there is a href value, add the whole path of that href value to the string.
                 {
                     onlineRelativeImgPath += a;
-                }
+                } //if the full link path ends with .bmp, save it to the file path collection as it will be an image.
                 if (onlineRelativeImgPath.EndsWith(".bmp"))
                     files.Add(url + onlineRelativeImgPath);
             }
