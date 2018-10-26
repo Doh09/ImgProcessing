@@ -43,8 +43,9 @@ namespace Parallelprogrammeringseksamen.Pipelines.PipelineStages
 
             foreach (HtmlNode link in doc.DocumentNode.SelectNodes("//a[@href]"))
             {
+                //For each link
                 string onlineRelativeImgPath = "";
-                foreach (var a in link.Attributes["href"].Value)
+                foreach (var a in link.Attributes["href"].Value) //If there is a href value, add the whole path of that href value to the string.
                 {
                     onlineRelativeImgPath += a;
                 }

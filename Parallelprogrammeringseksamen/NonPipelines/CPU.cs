@@ -1,26 +1,36 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace Parallelprogrammeringseksamen.MartinPiplineExperiment
+namespace Parallelprogrammeringseksamen
 {
-    public class CPURedux
+    /// <summary>
+    /// This class will hold all the non-pipeline LINQ and PLINQ experiments made on the CPU.
+    /// </summary>
+    public class CPU
     {
-        public void Initialize(List<Color> colors)
+        public void Initialize(List<Color> colors, int multiplicationFactor = 0)
         {
+            for (int i = 0; i < multiplicationFactor; i++)
+            {
+                colors.AddRange(colors);
+            }
             Console.WriteLine("RESULT *-*-*-*- CPU Map-Reduce time results");
-            var plinqColours = ProcessImg_MapReduce_PLINQ(colors);
+            var plinqColours = ProcessImg_Reduce_PLINQ(colors);
+            var linqColours =  ProcessImg_Reduce_LINQ(colors);
             Console.WriteLine("");
             Console.WriteLine("RESULT *-*-*-*- CPU Map-Reduce color results");
             PrintListWithColours(plinqColours);
             Console.WriteLine("");
         }
 
-        public List<CPU.ColorFrequency> ProcessImg_MapReduce_PLINQ(IEnumerable<Color> colors)
+        public List<ColorFrequency> ProcessImg_Reduce_PLINQ(IEnumerable<Color> colors)
         {
             Console.WriteLine("Starting PLINQ Map-Reduce...");
             Stopwatch sw = new Stopwatch();
@@ -30,7 +40,7 @@ namespace Parallelprogrammeringseksamen.MartinPiplineExperiment
                     .AsParallel()
                     .GroupBy(color => color)
                     .Select(
-                        intermediate => new CPU.ColorFrequency
+                        intermediate => new ColorFrequency
                         {
                             ColorKey = intermediate.Key,
                             Frequency = intermediate.Sum(c => 1)
@@ -43,12 +53,35 @@ namespace Parallelprogrammeringseksamen.MartinPiplineExperiment
             return candidates.ToList();
         }
 
-        private void PrintListWithColours(List<CPU.ColorFrequency> colorFrequencies, int topCandidatesToPrint = 10)
+
+        public List<ColorFrequency> ProcessImg_Reduce_LINQ(IEnumerable<Color> colors)
+        {
+            Console.WriteLine("Starting LINQ Map-Reduce...");
+            Stopwatch sw = new Stopwatch();
+            sw.Restart();
+            var candidates =
+                colors
+                    .GroupBy(color => color)
+                    .Select(
+                        intermediate => new ColorFrequency
+                        {
+                            ColorKey = intermediate.Key,
+                            Frequency = intermediate.Sum(c => 1)
+                        })
+                    .OrderBy(c => c.Frequency);
+            sw.Stop();
+
+            Console.WriteLine($"Sequential CPU: {sw.Elapsed}");
+
+            return candidates.ToList();
+        }
+
+        private void PrintListWithColours(List<ColorFrequency> colorFrequencies, int topCandidatesToPrint = 10)
         {
             for (int i = topCandidatesToPrint; i > 0; i--)
             {
                 Thread.Sleep(100);
-                CPU.ColorFrequency cf = colorFrequencies[colorFrequencies.Count - i];
+                ColorFrequency cf = colorFrequencies[colorFrequencies.Count - i];
                 Color c = cf.ColorKey; //The color used for the text in the console.
                 Color colorInfo = cf.ColorKey; //The color data, RGB.
                 if (c.R == 0 && c.G == 0 && c.B == 0)
@@ -73,3 +106,4 @@ namespace Parallelprogrammeringseksamen.MartinPiplineExperiment
         }
     }
 }
+

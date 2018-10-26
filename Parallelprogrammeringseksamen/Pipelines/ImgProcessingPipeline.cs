@@ -23,8 +23,8 @@ namespace Parallelprogrammeringseksamen.Pipelines
 
             //Establish pipeline objects
             var pplsLoadImage = new Pipeline_LoadImagePaths();
-            var pplsProcessImage = new Pipeline_ProcessImage();
-            var pplsMapReduce = new Pipeline_MapReduce();
+            var pplsProcessImage = new Pipeline_Map();
+            var pplsMapReduce = new Pipeline_Reduce();
             var pplsWriteResult = new Pipeline_WriteResult();
 
             //Set TaskFactory, let it be long running so it will work with pipeline working queues & tasks demanding a lot of time.
