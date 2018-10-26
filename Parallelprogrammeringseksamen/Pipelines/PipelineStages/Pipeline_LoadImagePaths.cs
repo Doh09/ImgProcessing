@@ -43,7 +43,6 @@ namespace Parallelprogrammeringseksamen.Pipelines.PipelineStages
 
             foreach (HtmlNode link in doc.DocumentNode.SelectNodes("//a[@href]"))
             {
-                //For each link
                 string onlineRelativeImgPath = "";
                 foreach (var a in link.Attributes["href"].Value) //If there is a href value, add the whole path of that href value to the string.
                 {
@@ -62,7 +61,7 @@ namespace Parallelprogrammeringseksamen.Pipelines.PipelineStages
         }
 
 
-        private IEnumerable<string> FilePathsFromDirectory(string directoryPath = @"O:\Billeder\Fines Billeder\101NIKON")
+        private IEnumerable<string> FilePathsFromDirectory(string directoryPath = @"..\..\..\ImagesToWorkOn\")
         {
             var files = Directory.GetFiles(directoryPath, "*.*", SearchOption.AllDirectories).Where(s => extensions.Contains(Path.GetExtension(s).ToLower()));
             return files;
