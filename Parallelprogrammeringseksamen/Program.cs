@@ -1,6 +1,10 @@
-﻿using System;
+﻿using HtmlAgilityPack;
+using Parallelprogrammeringseksamen.Pipelines;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 
 namespace Parallelprogrammeringseksamen
 {
@@ -12,11 +16,13 @@ namespace Parallelprogrammeringseksamen
         static void Main(string[] args)
         {
             Console.WriteLine("Starting Image Processor...");
-            ImgProcessor imgp = new ImgProcessor();
-            imgp.Initialize(new ColorLoader());
 
 
+            var imgProcessingPipeline = new ImgProcessingPipeline();
+            imgProcessingPipeline.Initialize();
 
+            Console.WriteLine("Finished... Hit >ENTER< to quit...");
+            Console.ReadLine();
         }
     }
 }

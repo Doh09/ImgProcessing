@@ -22,7 +22,7 @@ namespace Parallelprogrammeringseksamen
             
             //var taskIndex = -1;
             List<Task<List<Color>>> taskList = new List<Task<List<Color>>>();
-            //Task[] allTasks = new Task[BmpImgPaths.Count];
+            //Task[] allTasks = new Task[_bmpImgPaths.Count];
             for (int i = 0; i < BmpImgPaths.Count; i++)
             {
                 Console.WriteLine("Starting task with "+ BmpImgPaths[i]);
